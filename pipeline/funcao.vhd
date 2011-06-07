@@ -1,0 +1,27 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_ARITH.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+ENTITY funcao IS
+GENERIC (n: INTEGER := 10);
+ PORT (	clk,reset: IN STD_LOGIC;
+		);
+END funcao;
+
+ARCHITECTURE comportamento OF funcao IS
+
+COMPONENT data_path IS
+PORT 	(	clk,reset: IN STD_LOGIC;
+			y, x, dx, u: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+			resultado_f1: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+			resultado_f2: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+			resultado_f3: OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+		);
+END COMPONENT;
+
+SIGNAL adress, y, u, dx, x: STD_LOGIC_VECTOR(31 DOWNTO 0);
+
+BEGIN
+
+END comportamento;
