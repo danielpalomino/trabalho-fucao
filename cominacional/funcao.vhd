@@ -39,7 +39,8 @@ END COMPONENT;
 
 COMPONENT read_memory IS
 GENERIC (n: INTEGER:=10);
-PORT 	(	adress: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+PORT 	(	clk, reset: IN STD_LOGIC;
+			adress: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 			y, u, x, dx: OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
 		);
 END COMPONENT;
@@ -59,6 +60,8 @@ adress => read_adress
 );
 
 READ_MEMORY_0: read_memory GENERIC MAP (10) PORT MAP(
+clk => clk,
+reset => reset,
 adress => read_adress,
 y => y,
 u => u,
