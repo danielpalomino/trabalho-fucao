@@ -8,14 +8,9 @@ END tb;
 
 ARCHITECTURE behavior OF tb IS 
 
-COMPONENT funcao
-PORT(
-				clk : IN  std_logic;
-reset : IN  std_logic;
-resultado_f1 : OUT  std_logic_vector(31 downto 0);
-resultado_f2 : OUT  std_logic_vector(31 downto 0);
-resultado_f3 : OUT  std_logic_vector(31 downto 0)
-);
+COMPONENT funcao IS
+ PORT (	clk,reset: IN STD_LOGIC
+		);
 END COMPONENT;
 
 
@@ -24,9 +19,6 @@ signal clk : std_logic := '0';
 signal reset : std_logic := '0';
 
 --Outputs
-signal resultado_f1 : std_logic_vector(31 downto 0);
-signal resultado_f2 : std_logic_vector(31 downto 0);
-signal resultado_f3 : std_logic_vector(31 downto 0);
 
 -- Clock period definitions
 constant clk_period : time := 20ns;
@@ -36,10 +28,7 @@ BEGIN
 -- Instantiate the Unit Under Test (UUT)
 		uut: funcao PORT MAP (
 						clk => clk,
-						reset => reset,
-						resultado_f1 => resultado_f1,
-						resultado_f2 => resultado_f2,
-						resultado_f3 => resultado_f3
+						reset => reset
 						);
 
 		-- Clock process definitions
@@ -60,11 +49,10 @@ BEGIN
 		wait for 20ns;
 		reset <= '0';
 
-		wait for clk_period*10;
+		wait for 1ms;
 
 		-- insert stimulus here 
 
-		wait;
 		end process;
 
 		END;

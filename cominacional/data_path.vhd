@@ -5,7 +5,8 @@ USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 ENTITY data_path IS
 PORT 	(	clk,reset: IN STD_LOGIC;
-			y, x, dx, u: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+			y, x, dx, u, i_in: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+			i_out: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 			resultado_f1: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 			resultado_f2: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 			resultado_f3: OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
@@ -35,7 +36,20 @@ PORT 	(	clk,reset: IN STD_LOGIC;
 		);
 END COMPONENT;
 
+SIGNAL reg_i_in: STD_LOGIC_VECTOR(31 DOWNTO 0);
+
 BEGIN
+
+PROCESS (clk,reset)
+BEGIN
+	IF reset = '1' THEN
+		reg_i_in <= (OTHERS=>'0');
+		i_out <= (OTHERS=>'0');
+	ELSIF clk'EVENT AND clk='1' THEN
+		reg_i_in <= i_in;
+		i_out <= reg_i_in;
+	END IF;
+END PROCESS;
 
 FUNCAO_1: func1 PORT MAP (
 clk => clk,
