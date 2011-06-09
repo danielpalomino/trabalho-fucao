@@ -9,7 +9,8 @@ END tb;
 ARCHITECTURE behavior OF tb IS 
 
 COMPONENT funcao IS
- PORT (	clk,reset: IN STD_LOGIC
+ PORT (	clk, reset, start: IN STD_LOGIC;
+			ready: OUT STD_LOGIC
 		);
 END COMPONENT;
 
@@ -17,6 +18,8 @@ END COMPONENT;
 --Inputs
 signal clk : std_logic := '0';
 signal reset : std_logic := '0';
+signal ready : std_logic := '0';
+signal start : std_logic := '0';
 
 --Outputs
 
@@ -28,7 +31,9 @@ BEGIN
 -- Instantiate the Unit Under Test (UUT)
 		uut: funcao PORT MAP (
 						clk => clk,
-						reset => reset
+						reset => reset,
+						start => start,
+						ready => ready
 						);
 
 		-- Clock process definitions
@@ -48,6 +53,9 @@ BEGIN
 		reset <= '1';
 		wait for 20ns;
 		reset <= '0';
+		start <= '1';
+		wait for 20 ns;
+		start <= '0';
 
 		wait for 1ms;
 

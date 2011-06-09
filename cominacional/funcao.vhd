@@ -49,8 +49,8 @@ PORT 	(	clk, reset: IN STD_LOGIC;
 		);
 END COMPONENT;
 
-SIGNAL read_adress, write_adress, y, u, dx, x: STD_LOGIC_VECTOR(31 DOWNTO 0);
-SIGNAL resultado_f1, resultado_f2, resultado_f3: STD_LOGIC_VECTOR(31 DOWNTO 0);
+SIGNAL read_adress, write_adress, y_signal, u_signal, dx_signal, x_signal: STD_LOGIC_VECTOR(31 DOWNTO 0);
+SIGNAL resultado_f1_signal, resultado_f2_signal, resultado_f3_signal: STD_LOGIC_VECTOR(31 DOWNTO 0);
 SIGNAL write_enable: STD_LOGIC;
 
 BEGIN
@@ -74,33 +74,33 @@ y_in => "00000000000000000000000000000000",
 u_in => "00000000000000000000000000000000",
 x_in => "00000000000000000000000000000000",
 dx_in => "00000000000000000000000000000000",
-y => y,
-u => u,
-x => x,
-dx => dx
+y => y_signal,
+u => u_signal,
+x => x_signal,
+dx => dx_signal
 );
 
 DATA_PATH_0: data_path PORT MAP(
 clk => clk,
 reset => reset,
-y => y,
-x => x,
-dx => dx,
-u => u,
+y => y_signal,
+x => x_signal,
+dx => dx_signal,
+u => u_signal,
 i_in => read_adress,
 i_out => write_adress,
-resultado_f1 => resultado_f1,
-resultado_f2 => resultado_f2,
-resultado_f3 => resultado_f3
+resultado_f1 => resultado_f1_signal,
+resultado_f2 => resultado_f2_signal,
+resultado_f3 => resultado_f3_signal
 );
 
 WRITE_MEMORY_0: write_memory PORT MAP(
 clk => clk,
 reset => reset,
 we => write_enable,
-data_f1 => resultado_f1,
-data_f2 => resultado_f2,
-data_f3 => resultado_f3,
+data_f1 => resultado_f1_signal,
+data_f2 => resultado_f2_signal,
+data_f3 => resultado_f3_signal,
 adress => write_adress,
 out_f1 => open,
 out_f2 => open,
