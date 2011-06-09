@@ -9,7 +9,9 @@ GENERIC(n: INTEGER:=10);
 PORT 	(	clk,reset: IN STD_LOGIC;
 			i: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 			write_enable: OUT STD_LOGIC;
-			adress: OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+			read_enable: OUT STD_LOGIC;
+			adress: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+			ready: OUT STD_LOGIC
 		);
 END controle;
 
@@ -22,7 +24,9 @@ BEGIN
 PROCESS (clk,reset)
 VARIABLE cont: INTEGER:=0;
 BEGIN
+	read_enable <= '0';
 	IF reset = '1' THEN
+		ready <= '0';
 		cont := 0;
 		write_enable <= '0';
 		adress <= (OTHERS=>'0');
@@ -36,6 +40,7 @@ BEGIN
       cont := cont +1;
 	  ELSE
 	    IF CONV_INTEGER(i) = 9 THEN
+				ready <= '1';
 			   write_enable <= '0';
 			   stop <= '1';
 			   adress <= STD_LOGIC_VECTOR(TO_UNSIGNED(cont, 32));

@@ -1,3 +1,4 @@
+controle.vhd.bak
 db
 funcao.done
 funcao.fit.rpt
@@ -10,4 +11,5 @@ funcao.qpf
 funcao.qsf
 funcao.sta.rpt
 funcao.sta.summary
+funcao.vhd.bak
 incremental_db

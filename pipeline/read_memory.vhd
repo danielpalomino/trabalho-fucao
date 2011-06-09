@@ -5,15 +5,17 @@ USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 USE IEEE.NUMERIC_STD;
 
 ENTITY read_memory IS
-GENERIC (n: INTEGER:=10);
-PORT 	(	adress: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+PORT 	(	clk, reset: IN STD_LOGIC;
+			we: IN STD_LOGIC;
+			adress: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+			y_in, u_in, x_in, dx_in: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 			y, u, x, dx: OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
 		);
 END read_memory;
 
 ARCHITECTURE comportamento OF read_memory IS
 
-TYPE mem IS ARRAY (n-1 DOWNTO 0) OF STD_LOGIC_VECTOR (31 DOWNTO 0);
+TYPE mem IS ARRAY (0 TO 9) OF STD_LOGIC_VECTOR (31 DOWNTO 0);
 SIGNAL memoria_y: mem:= (
 "00000000000000000000000000000001",
 "00000000000000000000000000000010",
@@ -62,12 +64,28 @@ SIGNAL memoria_u: mem:= (
 "00000000000000000000000000001001",
 "00000000000000000000000000001010");
 
-
 BEGIN
 
-y <= memoria_y(CONV_INTEGER(adress));
-x <= memoria_x(CONV_INTEGER(adress));
-dx <= memoria_dx(CONV_INTEGER(adress));
-u <= memoria_u(CONV_INTEGER(adress));
+PROCESS (clk, reset)
+BEGIN
+	IF reset = '1' THEN
+		y <= (OTHERS=>'0');
+		x <= (OTHERS=>'0');
+		dx <= (OTHERS=>'0');
+		u <= (OTHERS=>'0');
+	ELSIF clk'EVENT AND clk = '1' THEN
+		IF (we = '1') THEN
+			memoria_y(CONV_INTEGER(adress)) <= y_in;
+			memoria_x(CONV_INTEGER(adress)) <= x_in;
+			memoria_dx(CONV_INTEGER(adress)) <= dx_in;
+			memoria_u(CONV_INTEGER(adress)) <= u_in;
+		ELSE
+			y <= memoria_y(CONV_INTEGER(adress));
+			x <= memoria_x(CONV_INTEGER(adress));
+			dx <= memoria_dx(CONV_INTEGER(adress));
+			u <= memoria_u(CONV_INTEGER(adress));
+		END IF;
+	END IF;
+END PROCESS;
 
 END comportamento;
